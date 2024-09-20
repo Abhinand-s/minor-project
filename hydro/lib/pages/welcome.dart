@@ -1,218 +1,239 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hydro/pages/homescreen.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // Background Image with gradient overlay
-            Container(
+      body: Stack(
+        children: [
+          // Full Background Image (visible)
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    "assets/background1.jpg"), // Full eco-friendly background image
+                fit: BoxFit.cover, // Ensures image covers the whole screen
+              ),
+            ),
+          ),
+          // Darker Gradient Overlay for better text visibility
+          Positioned.fill(
+            child: Container(
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/background1.jpg"), // Background image path
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3), // Dark overlay
-                    BlendMode.darken,
-                  ),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.black.withOpacity(0.6),
+                    Colors.black.withOpacity(0.4)
+                  ], // Darkened gradient
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
               ),
             ),
-            // Content with scrolling
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: 40), // Adjusted top spacing
-                    // Header Section
-                    Text(
-                      "Welcome to HydroSmart",
-                      style: TextStyle(
-                        fontSize: 32,
+          ),
+          // Slight Blur Overlay for text clarity
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                  sigmaX: 2, sigmaY: 2), // Slight blur for clarity
+              child: Container(
+                color: Colors.black.withOpacity(0.15), // Light dark overlay
+              ),
+            ),
+          ),
+          // Main content
+          Center(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Header with fade-in animation and shadow
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: Duration(seconds: 1),
+                    builder: (context, double opacity, child) {
+                      return Opacity(
+                        opacity: opacity,
+                        child: child,
+                      );
+                    },
+                    child: Text(
+                      "Welcome",
+                      style: GoogleFonts.raleway(
+                        fontSize: 42,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         shadows: [
                           Shadow(
-                            color: Colors.black38,
-                            offset: Offset(2, 2),
-                            blurRadius: 4,
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 5.0,
+                            color: Colors.black.withOpacity(0.7),
                           ),
                         ],
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Your Automated Hydroponic Solution",
-                      style: TextStyle(
-                        fontSize: 20,
+                  ),
+                  SizedBox(height: 20),
+                  // Subheader about Hydroponics with shadow
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: Duration(seconds: 1),
+                    builder: (context, double opacity, child) {
+                      return Opacity(
+                        opacity: opacity,
+                        child: child,
+                      );
+                    },
+                    child: Text(
+                      "Hydroponics Made Simple",
+                      style: GoogleFonts.raleway(
+                        fontSize: 22,
                         color: Colors.greenAccent[100],
-                        fontWeight: FontWeight.w400,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 3.0,
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                        ],
                       ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  // Short description about Hydroponics with improved visibility
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: Duration(seconds: 1),
+                    builder: (context, double opacity, child) {
+                      return Opacity(
+                        opacity: opacity,
+                        child: child,
+                      );
+                    },
+                    child: Text(
+                      "Hydroponics is a method of growing plants without soil, using mineral nutrient solutions in a water solvent. "
+                      "This modern farming technique allows faster growth, uses less water, and requires minimal space.",
                       textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 40),
-                    // Benefits Section
-                    Text(
-                      "Benefits of Hydroponics",
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      style: GoogleFonts.raleway(
+                        fontSize: 18, // Increased font size
+                        color: Colors.white, // Brighter white color for text
                         shadows: [
                           Shadow(
-                            color: Colors.black38,
-                            offset: Offset(2, 2),
-                            blurRadius: 4,
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 4.0,
+                            color: Colors.black.withOpacity(0.7),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 15),
-                    _buildBenefitItem("💧 Water Efficiency: Uses 90% less water."),
-                    _buildBenefitItem("🌱 Faster Growth: Plants grow 25% faster."),
-                    _buildBenefitItem("🏙️ Space Efficient: Ideal for urban areas."),
-                    _buildBenefitItem("🪴 No Soil Required: Less pests and weeds."),
-                    _buildBenefitItem("🕒 Year-Round Growing: Controlled conditions."),
-                    SizedBox(height: 30),
-                    // Automatic System Section
-                    Text(
-                      "How Our Automatic System Works",
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black38,
-                            offset: Offset(2, 2),
-                            blurRadius: 4,
+                  ),
+                  SizedBox(height: 30),
+                  // Benefits of Hydroponics with readable text
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: Duration(seconds: 1),
+                    builder: (context, double opacity, child) {
+                      return Opacity(
+                        opacity: opacity,
+                        child: child,
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        Icon(Icons.eco,
+                            size: 40, color: Colors.greenAccent[100]),
+                        SizedBox(height: 10),
+                        Text(
+                          "Why Choose Hydroponics?",
+                          style: GoogleFonts.raleway(
+                            fontSize: 24,
+                            color: Colors.greenAccent[100],
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(0.0, 2.0),
+                                blurRadius: 4.0,
+                                color: Colors.black.withOpacity(0.7),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    _buildSystemFeature("🌊 Automated Watering: Adjusts water flow."),
-                    _buildSystemFeature("🥬 Nutrient Control: Delivers perfect mix."),
-                    _buildSystemFeature("📊 Real-Time Monitoring: Live updates on plant health."),
-                    SizedBox(height: 50),
-                    // Button to Next Page with gradient
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16.0), backgroundColor: Colors.green[600],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
                         ),
-                        elevation: 5,
-                        shadowColor: Colors.black54, // Button color
+                        SizedBox(height: 20),
+                        Text(
+                          "• Save up to 90% of water compared to soil farming\n"
+                          "• Grow plants faster and harvest more\n"
+                          "• Utilize small spaces like rooftops or balconies\n"
+                          "• No need for pesticides, making it eco-friendly",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.raleway(
+                            fontSize: 16,
+                            color: Colors.white, // More visible text color
+                            shadows: [
+                              Shadow(
+                                offset: Offset(0.0, 1.0),
+                                blurRadius: 3.0,
+                                color: Colors.black.withOpacity(0.7),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 60),
+                  // Enhanced Get Started Button with a solid green color
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: Duration(seconds: 1),
+                    builder: (context, double opacity, child) {
+                      return Opacity(
+                        opacity: opacity,
+                        child: child,
+                      );
+                    },
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        backgroundColor:
+                            Colors.green[700], // Solid green button
+                        elevation: 5, // Button shadow for depth
                       ),
                       onPressed: () {
+                        // Action for Get Started button - Navigate to HomeScreen
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => NextPage()),
+                          MaterialPageRoute(builder: (context) => HomePage()),
                         );
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.green[700]!, Colors.green[400]!],
-                          ),
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Get Started',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                      child: Text(
+                        'Get Started',
+                        style: GoogleFonts.raleway(
+                          fontSize: 20,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(0.0, 2.0),
+                              blurRadius: 4.0,
+                              color: Colors.black.withOpacity(0.7),
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBenefitItem(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                shadows: [
-                  Shadow(
-                    color: Colors.black38,
-                    offset: Offset(1, 1),
-                    blurRadius: 2,
                   ),
                 ],
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSystemFeature(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                shadows: [
-                  Shadow(
-                    color: Colors.black38,
-                    offset: Offset(1, 1),
-                    blurRadius: 2,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Dummy next page
-class NextPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Next Page'),
-      ),
-      body: Center(
-        child: Text(
-          'This is the next page.',
-          style: TextStyle(fontSize: 24),
-        ),
       ),
     );
   }
